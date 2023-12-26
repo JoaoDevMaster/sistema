@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <title>Sistema NewFiber - Anotações</title>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Rubik+Doodle+Shadow&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@700&display=swap');
+
+    .welcome-line-2{
+        font-family: 'Rubik Doodle Shadow';
+        color:#ff9006;
+    }    
+    .voltar {
+        cursor: pointer;
+        font-size: 30px;
+        padding:5px;
+        position:fixed;
+        transition: transform 0.3s ease-in-out;
+    }   .hidden-password {
+        -webkit-text-security: disc;
+    }
+
+    </style>
+    
+</head>
+<body style="background-color: #161616; font-family: 'Rubik', sans-serif;">
+
+<div class="container text-light text-center">
+    <BR>
+   <form id="notesForm">
+       <textarea id="content" name="content" rows="8" required>{{ latest_note_content }}</textarea>
+   </form>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script>
+   var contentTextarea = document.getElementById('content');
+
+   contentTextarea.addEventListener('input', function () {
+       saveNote();
+   });
+
+   function saveNote() {
+       var content = contentTextarea.value;
+
+       $.ajax({
+           type: 'POST',
+           url: '/save_note',
+           contentType: 'application/json;charset=UTF-8',
+           data: JSON.stringify({ content: content }),
+           success: function (response) {
+               console.log(response);
+           }
+       });
+   }
+</script>
+
+</body>
+</html>
